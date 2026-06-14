@@ -1,0 +1,13 @@
+[project]
+name = "design-of-wind-farms"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "floris>=4.6.4",
+    "pexpect>=4.9.0",
+    "pytest>=9.0.3",
+    "requests>=2.34.2",
+    "tqdm>=4.67.3",
+]

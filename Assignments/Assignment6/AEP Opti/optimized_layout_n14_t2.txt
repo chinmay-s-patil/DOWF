@@ -1,0 +1,33 @@
+=== Best layout: 14 turbines, type BAR_BAU_LSP_3.25MW ===
+AEP       : 74.220 GWh/yr
+Penalty   : 0.000000
+  Turbine 0: x=1.9036 km, y=1.7982 km
+  Turbine 1: x=1.3670 km, y=2.0450 km
+  Turbine 2: x=2.0036 km, y=0.9300 km
+  Turbine 3: x=1.2671 km, y=1.3236 km
+  Turbine 4: x=1.0159 km, y=1.8980 km
+  Turbine 5: x=0.2214 km, y=1.4165 km
+  Turbine 6: x=0.7761 km, y=1.3639 km
+  Turbine 7: x=2.3183 km, y=1.5411 km
+  Turbine 8: x=0.7628 km, y=0.5067 km
+  Turbine 9: x=0.9940 km, y=0.2686 km
+  Turbine 10: x=2.0903 km, y=1.2746 km
+  Turbine 11: x=1.4485 km, y=1.6366 km
+  Turbine 12: x=2.4183 km, y=1.2245 km
+  Turbine 13: x=1.2370 km, y=0.5020 km
+
+=== Start position (random seed) ===
+  Turbine 0: x=2.3011 km, y=1.6746 km
+  Turbine 1: x=1.3643 km, y=0.3592 km
+  Turbine 2: x=2.1101 km, y=1.4733 km
+  Turbine 3: x=3.5342 km, y=1.5449 km
+  Turbine 4: x=2.4690 km, y=1.1709 km
+  Turbine 5: x=3.5305 km, y=1.4707 km
+  Turbine 6: x=1.8639 km, y=1.7636 km
+  Turbine 7: x=3.0750 km, y=0.3385 km
+  Turbine 8: x=0.7301 km, y=1.1316 km
+  Turbine 9: x=0.9771 km, y=1.1232 km
+  Turbine 10: x=1.6859 km, y=0.6854 km
+  Turbine 11: x=0.8632 km, y=1.2757 km
+  Turbine 12: x=0.8516 km, y=0.1958 km
+  Turbine 13: x=1.4327 km, y=1.9084 km

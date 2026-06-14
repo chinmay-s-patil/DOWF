@@ -1,0 +1,5 @@
+
+from floris_cupy.core.wake_deflection.empirical_gauss import EmpiricalGaussVelocityDeflection
+from floris_cupy.core.wake_deflection.gauss import GaussVelocityDeflection
+from floris_cupy.core.wake_deflection.jimenez import JimenezVelocityDeflection
+from floris_cupy.core.wake_deflection.none import NoneVelocityDeflection

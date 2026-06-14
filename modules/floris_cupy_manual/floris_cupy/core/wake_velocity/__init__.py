@@ -1,0 +1,8 @@
+
+from floris_cupy.core.wake_velocity.cumulative_gauss_curl import CumulativeGaussCurlVelocityDeficit
+from floris_cupy.core.wake_velocity.empirical_gauss import EmpiricalGaussVelocityDeficit
+from floris_cupy.core.wake_velocity.gauss import GaussVelocityDeficit
+from floris_cupy.core.wake_velocity.jensen import JensenVelocityDeficit
+from floris_cupy.core.wake_velocity.none import NoneVelocityDeficit
+from floris_cupy.core.wake_velocity.turbopark import TurbOParkVelocityDeficit
+from floris_cupy.core.wake_velocity.turboparkgauss import TurboparkgaussVelocityDeficit

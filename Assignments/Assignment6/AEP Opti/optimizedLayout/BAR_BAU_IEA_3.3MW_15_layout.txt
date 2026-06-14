@@ -1,0 +1,36 @@
+=== Best layout: 15 turbines, type BAR_BAU_IEA_3.3MW ===
+Optimization Time: 35 min 17.14 secs
+AEP       : 262.609 GWh/yr
+Penalty   : 0.000000
+  Turbine 0: x=2344.2242 km, y=511.7744 km
+  Turbine 1: x=1761.1259 km, y=1051.1205 km
+  Turbine 2: x=2638.1355 km, y=1335.7550 km
+  Turbine 3: x=1498.7706 km, y=558.3563 km
+  Turbine 4: x=673.2102 km, y=1353.7283 km
+  Turbine 5: x=2057.8533 km, y=1147.8456 km
+  Turbine 6: x=2078.4113 km, y=833.6954 km
+  Turbine 7: x=2202.6817 km, y=1471.3568 km
+  Turbine 8: x=1255.2284 km, y=852.5096 km
+  Turbine 9: x=912.3084 km, y=2013.5735 km
+  Turbine 10: x=2733.4926 km, y=1634.5508 km
+  Turbine 11: x=237.3755 km, y=1406.1125 km
+  Turbine 12: x=3041.6091 km, y=1410.8148 km
+  Turbine 13: x=2345.9583 km, y=1013.7036 km
+  Turbine 14: x=1872.8292 km, y=1505.3370 km
+
+=== Start position (random seed) ===
+  Turbine 0: x=2301.1206 km, y=1674.5888 km
+  Turbine 1: x=1364.3011 km, y=359.1501 km
+  Turbine 2: x=2110.1087 km, y=1473.3308 km
+  Turbine 3: x=3534.2123 km, y=1544.8579 km
+  Turbine 4: x=2468.9779 km, y=1170.8755 km
+  Turbine 5: x=3530.4704 km, y=1470.7484 km
+  Turbine 6: x=1863.9160 km, y=1763.5889 km
+  Turbine 7: x=3074.9732 km, y=338.4835 km
+  Turbine 8: x=730.1246 km, y=1131.5589 km
+  Turbine 9: x=977.0671 km, y=1123.1740 km
+  Turbine 10: x=1685.8846 km, y=685.3856 km
+  Turbine 11: x=863.1986 km, y=1275.6619 km
+  Turbine 12: x=851.5753 km, y=195.7997 km
+  Turbine 13: x=1432.7027 km, y=1908.3509 km
+  Turbine 14: x=1973.4985 km, y=451.8955 km

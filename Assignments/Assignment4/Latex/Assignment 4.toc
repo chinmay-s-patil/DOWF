@@ -1,0 +1,28 @@
+\contentsline {section}{\numberline {1}Question 1: Wind Rose}{3}{section.1}%
+\contentsline {section}{\numberline {2}Question 2: AEP and Wind Farm Efficiency}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Setup}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Results}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Discussion}{4}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Question 3: LandBOSSE -- Balance-of-Plant and LCOE}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}LandBOSSE configuration}{4}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Balance-of-Plant costs}{4}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Turbine capital cost and ICC}{5}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}LCOE calculation}{5}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Question 4: LCOE Literature Comparison and Cost Breakdown}{5}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Literature comparison}{5}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Annualised cost breakdown}{5}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Question 5: Effect of Increasing Spacing from 5D to 8D}{6}{section.5}%
+\contentsline {section}{\numberline {6}Question 6: Effect of a Reduced Discount Rate}{6}{section.6}%
+\contentsline {section}{\numberline {7}Question 7: AEP Improvement Strategy}{7}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Proposed method: staggered layout}{7}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Discussion}{7}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Question 8: IRR and Profitability Index}{7}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Revenue and cash-flow}{7}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}NPV and IRR}{8}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Profitability Index}{8}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Economic assessment}{8}{subsection.8.4}%
+\contentsline {section}{\numberline {9}Question 9: Minimum Turbines for PI $>$ 1}{9}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Methodology}{9}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Results}{9}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Discussion}{9}{subsection.9.3}%
+\contentsline {section}{\numberline {10}Conclusion}{9}{section.10}%
