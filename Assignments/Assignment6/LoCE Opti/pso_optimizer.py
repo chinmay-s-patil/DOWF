@@ -69,10 +69,16 @@ class BatchedGPUParticleSwarm:
                 self.best_global_penalty = float(penalties[min_score_idx])
                 
             if callback is not None:
-                # Pass the CPU version of the best position
-                flat_pos = self.best_global_pos.flatten()
-                cpu_pos = flat_pos.get() if hasattr(flat_pos, 'get') else flat_pos
-                callback(cpu_pos, self.best_global_score, self.best_global_aep, self.best_global_penalty, it)
+                # Pass current iteration's best particle AND global best
+                cur_best_idx = int(cp.argmin(scores))
+                cur_flat = pos[cur_best_idx].flatten()
+                cur_cpu = cur_flat.get() if hasattr(cur_flat, 'get') else cur_flat
+                glob_flat = self.best_global_pos.flatten()
+                glob_cpu = glob_flat.get() if hasattr(glob_flat, 'get') else glob_flat
+                callback(
+                    glob_cpu, self.best_global_score, self.best_global_aep, self.best_global_penalty, it,
+                    cur_cpu, float(scores[cur_best_idx]), float(aeps[cur_best_idx]), float(penalties[cur_best_idx])
+                )
                 
             # Update velocities and positions
             r1 = self.rng.uniform(0, 1, size=(self.n_particles, self.n_turbines, 2))

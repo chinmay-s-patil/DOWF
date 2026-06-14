@@ -1,0 +1,31 @@
+LandBOSSE-equivalent LCoE Report
+Project: 16 turbines × 3.30 MW = 52.8 MW
+Turbine type: BAR_BAU_IEA_3.3MW
+
+  n_turbines                          : 16.0000
+  turbine_rating_MW                   : 3.3000
+  project_size_MW                     : 52.8000
+  aep_gwh_yr                          : 282.2926
+  capacity_factor_pct                 : 61.0325
+  turbine_cost_total_USD              : 47520000.0000
+  substation_cost_USD                 : 3162300.3458
+  grid_connection_USD                 : 2027282.0631
+  collection_cable_USD                : 7679397.9210
+  foundation_USD                      : 4224000.0000
+  roads_USD                           : 528000.0000
+  erection_USD                        : 1520000.0000
+  development_USD                     : 314291.0000
+  management_USD                      : 11754474.5599
+  bos_cost_USD                        : 31209745.8898
+  capex_total_USD                     : 78729745.8898
+  capex_per_kw_USD                    : 1491.0937
+  opex_per_yr_USD                     : 1184756.9507
+  fcr                                 : 0.0710
+  lcoe_USD_per_kWh                    : 0.0240
+  lcoe_EUR_per_MWh                    : 22.0783
+  npv_EUR                             : 150776378.2798
+  pi                                  : 3.0816
+  spp_years                           : 4.5705
+  cable_total_km                      : 38.3970
+  distance_to_interconnect_mi         : 1.1200
+  interconnect_voltage_kV             : 83.4254

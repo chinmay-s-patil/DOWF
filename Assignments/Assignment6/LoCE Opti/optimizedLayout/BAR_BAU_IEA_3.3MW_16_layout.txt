@@ -1,0 +1,22 @@
+=== Best layout: 16 turbines, type BAR_BAU_IEA_3.3MW ===
+Opt time : 18m 5.7s
+AEP      : 282.293 GWh/yr
+Penalty  : 0.000000
+Substation: x=3450.34 m, y=200.59 m
+Total cable run: 38.40 km
+  Turbine 0: x=246.7267 m, y=657.2116 m
+  Turbine 1: x=1187.7800 m, y=1283.3655 m
+  Turbine 2: x=659.1867 m, y=940.4126 m
+  Turbine 3: x=1424.6920 m, y=1034.1044 m
+  Turbine 4: x=1081.7716 m, y=1844.4680 m
+  Turbine 5: x=1400.7426 m, y=1553.2365 m
+  Turbine 6: x=2158.2731 m, y=1373.8022 m
+  Turbine 7: x=817.7194 m, y=407.5513 m
+  Turbine 8: x=2256.5452 m, y=670.9234 m
+  Turbine 9: x=855.2923 m, y=1626.4253 m
+  Turbine 10: x=840.8121 m, y=2072.0488 m
+  Turbine 11: x=600.4978 m, y=1400.8439 m
+  Turbine 12: x=2793.4082 m, y=1449.6208 m
+  Turbine 13: x=2487.2992 m, y=1525.6226 m
+  Turbine 14: x=1530.6980 m, y=482.3866 m
+  Turbine 15: x=1139.5874 m, y=297.9854 m
