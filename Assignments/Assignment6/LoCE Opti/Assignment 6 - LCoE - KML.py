@@ -10,38 +10,32 @@
 
 # # Import Packages
 
-import matplotlib.pyplot as plt
+
 import numpy as np
 import pathlib
 import yaml
+import time
+import shutil
+import json
+import os
+import cupy as cp
+import multiprocessing as mp
+import matplotlib.pyplot as plt
+
 from scipy.stats import weibull_min
 from shapely.geometry import Point, Polygon, LineString
 from shapely.ops import unary_union
 from floris_cupy import FlorisModel # pyright: ignore[reportMissingImports]
 from floris_cupy.wind_data import WindRose # pyright: ignore[reportMissingImports]
 import floris_cupy as _floris_pkg # pyright: ignore[reportMissingImports]
+from xml.etree import ElementTree as _ET
 
-# Path to FLORIS built-in default GCH config
-_FLORIS_DEFAULT_YAML = str(
-	pathlib.Path(_floris_pkg.__file__).parent / 'default_inputs.yaml'
-)
-# print('FLORIS', _floris_pkg.__version__, '-- default yaml found:', _FLORIS_DEFAULT_YAML)
-import numpy as np
-from scipy.optimize import differential_evolution
-
-from scipy.optimize import minimize
-import numpy as np
-import time
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 
 
 import warnings
 warnings.filterwarnings("ignore")
-
-
-
-
-import os
 
 os.chdir(r"/home/lavender/Studies/Design of Wind Farms/Assignments/Assignment6/LoCE Opti")
 
@@ -67,9 +61,6 @@ tub_lib = r"./turbineData/"
 turbines = ["IEA_3_4MW", "BAR_BAU_IEA_3.3MW", "BAR_BAU_LSP_3.25MW"]
 turbines = ["IEA_3_4MW"]
 
-import yaml
-import os
-
 turbine_yaml_path = os.path.join(tub_lib, turbines[0] + ".yaml")
 with open(turbine_yaml_path, 'r') as f:
 	turb_data = yaml.safe_load(f)
@@ -78,6 +69,29 @@ HH = turb_data['hub_height']
 ROTOR_DIAMETER_M = turb_data['rotor_diameter']
 
 MIN_TURBINE_SPACING = 2 * ROTOR_DIAMETER_M  # Min spacing derived from yaml
+
+# ## Contraints
+
+ROAD_BUFFER_M = 15.0  # 15 m visual buffer for plotting
+FIELD_BORDER_MAX_M = 50.0
+ROTOR_RADIUS_M = ROTOR_DIAMETER_M / 2.0
+
+TOWN_RADIUS = 1000.0
+BUILD_RADIUS = HH * 4
+WT_RADIUS = HH * 4
+
+# Roads as exclusion zones: turbine must stay >= rotor_radius + buffer away
+# Normal roads (Kreisstraße level): rotor_radius + 10m
+ROAD_EXCL_NORMAL_M = ROTOR_RADIUS_M + 10.0
+# Toftlundvej (Bundesstraße level): rotor_radius + 15m
+ROAD_EXCL_TOFT_M   = ROTOR_RADIUS_M + 15.0
+
+FIELD_BORDER_MAX_M = 50.0   # turbine must be within 50m of a field border
+
+# ## Thresholds
+
+PEN_THRESHOLD = 1e-3   # relaxed — tighten once optimizer is converging well
+
 
 # # Denmark Site
 
@@ -153,8 +167,6 @@ def get_ref_WGS84(latt, long):
 
 # ### Boundaries — parsed from KML
 
-from xml.etree import ElementTree as _ET
-
 _KML_PATH = os.path.join(os.path.dirname(__file__), "Denmark Site - Chin.kml")
 _kml_ns = {'kml': 'http://www.opengis.net/kml/2.2'}
 _kml_tree = _ET.parse(_KML_PATH)
@@ -229,8 +241,6 @@ for _name, _pm in _kml_placemarks():
 				 (_pts_m[_i+1][1], _pts_m[_i+1][0])))
 
 road_segments = road_segments_normal + road_segments_toft
-
-ROAD_BUFFER_M = 15.0  # 15 m visual buffer for plotting
 
 
 def road_buffer_polygon(x0, y0, x1, y1, width):
@@ -450,7 +460,6 @@ def min_dist_to_any_line(x, y):
 		d = _point_to_segment_dist_sq(x, y, x1, y1, x2, y2)
 		if d < best_field: best_field = d
 	dist_field = np.sqrt(best_field) if best_field != np.inf else np.inf
-	FIELD_BORDER_MAX_M = 50.0
 	return max(0.0, dist_field - FIELD_BORDER_MAX_M) ** 2
 
 def line_penalty(positions):
@@ -481,26 +490,17 @@ def boundary_penalty(positions):
 
 
 
-ROTOR_RADIUS_M = ROTOR_DIAMETER_M / 2.0
+
 
 EXCLUSION_ZONES = []
-
-BUILD_RADIUS = HH * 4
 for lat, lon in builds:
 	EXCLUSION_ZONES.append((lon, lat, BUILD_RADIUS))
 
-TOWN_RADIUS = 1000.0
 EXCLUSION_ZONES.append((lon_k_town, lat_k_town, TOWN_RADIUS))
 
-WT_RADIUS = HH * 4
 for lat, lon in wts:
 	EXCLUSION_ZONES.append((lon, lat, WT_RADIUS))
 
-# Roads as exclusion zones: turbine must stay >= rotor_radius + buffer away
-# Normal roads (Kreisstraße level): rotor_radius + 10m
-ROAD_EXCL_NORMAL_M = ROTOR_RADIUS_M + 10.0
-# Toftlundvej (Bundesstraße level): rotor_radius + 15m
-ROAD_EXCL_TOFT_M   = ROTOR_RADIUS_M + 15.0
 
 # Roads are line segments, not points — handled separately in GPU penalty below
 # Store as flat arrays for GPU use
@@ -582,9 +582,6 @@ Y_MAX = max(lattLT, lattRT)
 
 
 # #### OBJECTIVE
-import multiprocessing as mp
-import cupy as cp
-from concurrent.futures import ProcessPoolExecutor, as_completed
 
 def _make_objective(n_turbines, fmodel_local):
 	def _get_seg_data(segs):
@@ -605,7 +602,6 @@ def _make_objective(n_turbines, fmodel_local):
 	exc_xy  = exc_arr[:, :2]
 	exc_r   = exc_arr[:, 2]
 
-	FIELD_BORDER_MAX_M = 50.0   # turbine must be within 50m of a field border
 
 	def _dist_to_segs_batch(px, py, p1, dxdy, lensq):
 		"""
@@ -698,8 +694,6 @@ def _make_objective(n_turbines, fmodel_local):
 		return score, aeps, penalty
 
 	return _batched_objective
-
-import os
 
 def save_layout_plot(positions, n_turbines, filename, title=""):
 	fig, ax = plt.subplots(figsize=(20,12))
@@ -890,20 +884,12 @@ def _run_one(args):
 	ROTOR_DIAMETER_M = turb_data['rotor_diameter']
 	MIN_TURBINE_SPACING = 2 * ROTOR_DIAMETER_M
 	
-	ROTOR_RADIUS_M = ROTOR_DIAMETER_M / 2.0
-	
 	EXCLUSION_ZONES = []
-	BUILD_RADIUS = HH * 4
 	for lat, lon in builds:
 		EXCLUSION_ZONES.append((lon, lat, BUILD_RADIUS))
-	TOWN_RADIUS = 1000.0
 	EXCLUSION_ZONES.append((lon_k_town, lat_k_town, TOWN_RADIUS))
-	WT_RADIUS = HH * 4
 	for lat, lon in wts:
 		EXCLUSION_ZONES.append((lon, lat, WT_RADIUS))
-		
-	ROAD_EXCL_NORMAL_M = ROTOR_RADIUS_M + 10.0
-	ROAD_EXCL_TOFT_M   = ROTOR_RADIUS_M + 15.0
 
 	flat_best_pos, x0, pos, exact_aep, history, pso_time = run_optimization(n_turbines=n, maxiter=MAX_ITER, turbine_type_name=turbines[t_idx])
 	line_pen  = line_penalty(pos)
@@ -915,10 +901,6 @@ def _run_one(args):
 	return {"n": n, "t_idx": t_idx, "x0": x0, "positions": pos, "aep": float(exact_aep), "total_pen": total_pen, "time": pso_time, "history": history}
 
 if __name__ == '__main__':
-	import multiprocessing as mp
-	import shutil
-	import os
-	import time
 	try:
 		mp.set_start_method('spawn')
 	except RuntimeError:
@@ -933,7 +915,6 @@ if __name__ == '__main__':
 	all_results = {}
 	
 	# Initialize output directories and trackers
-	import json
 	os.makedirs("history_plots", exist_ok=True)
 	os.makedirs("history_logs", exist_ok=True)
 	os.makedirs("optimizedLayout", exist_ok=True)
@@ -1019,7 +1000,6 @@ if __name__ == '__main__':
 	print(f"--- Optimization complete in {total_time:.2f} seconds ({(total_time/60):.2f} minutes) ---")
 
 
-	PEN_THRESHOLD = 1e-3   # relaxed — tighten once optimizer is converging well
 
 	satisfying = {k: r for k, r in all_results.items() if r["total_pen"] < PEN_THRESHOLD}
 	candidates = satisfying if satisfying else all_results   # fallback: take best anyway
@@ -1070,9 +1050,6 @@ if __name__ == '__main__':
 	turbine_yaml_path = os.path.join(tub_lib, turbines[BEST_T_IDX] + ".yaml")
 	with open(turbine_yaml_path, 'r') as f:
 		turb_data = yaml.safe_load(f)
-	HH = turb_data['hub_height']
-	ROTOR_DIAMETER_M = turb_data['rotor_diameter']
-	MIN_TURBINE_SPACING = 2 * ROTOR_DIAMETER_M
 
 	fig, ax = plt.subplots(figsize=(20,12))
 
