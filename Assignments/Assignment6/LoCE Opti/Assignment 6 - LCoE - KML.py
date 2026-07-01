@@ -48,6 +48,9 @@ N_PARTICLES = 50
 MAX_WORKERS = 5
 N_MIN, N_MAX = 17, 17
 SAVE_PLOTS = True
+CAPACITY_MIN, CAPACITY_MAX = 45, 60		# MW
+
+WAKE_STEERINF = False
 
 LINE_PENALTY_WEIGHT          = 1e9
 BOUNDARY_PENALTY_WEIGHT      = 1e8
@@ -59,7 +62,7 @@ AEP_WEIGHT                   = 1e4
 
 tub_lib = r"./turbineData/"
 turbines = ["IEA_3_4MW", "BAR_BAU_IEA_3.3MW", "BAR_BAU_LSP_3.25MW"]
-turbines = ["IEA_3_4MW"]
+# turbines = ["IEA_3_4MW"]
 
 turbine_yaml_path = os.path.join(tub_lib, turbines[0] + ".yaml")
 with open(turbine_yaml_path, 'r') as f:
@@ -91,6 +94,44 @@ FIELD_BORDER_MAX_M = 50.0   # turbine must be within 50m of a field border
 # ## Thresholds
 
 PEN_THRESHOLD = 1e-3   # relaxed — tighten once optimizer is converging well
+
+# ## Constraint Functions
+
+# --- Capacity-aware turbine count limits ---
+def _get_turbine_power_mw(turbine_name: str) -> float:
+	"""Extract rated power in MW from the turbine YAML."""
+	yaml_path = os.path.join(tub_lib, turbine_name + ".yaml")
+	with open(yaml_path, 'r') as f:
+		data = yaml.safe_load(f)
+
+	rated_kw = None
+	# Standard FLORIS key
+	if 'rated_power' in data:
+		rated_kw = float(data['rated_power'])
+	# Fallback: max of the power curve table
+	elif 'power_thrust_table' in data and 'power' in data['power_thrust_table']:
+		rated_kw = max(float(p) for p in data['power_thrust_table']['power'])
+	else:
+		# Hard-coded fallback from assignment Table 3
+		fallback = {
+			"IEA_3_4MW": 3370.0,
+			"BAR_BAU_IEA_3.3MW": 3300.0,
+			"BAR_BAU_LSP_3.25MW": 3250.0,
+		}
+		rated_kw = fallback.get(turbine_name, 3370.0)
+
+	return rated_kw / 1000.0  # kW → MW
+
+
+def valid_turbine_counts(turbine_name: str, cap_min_mw: float, cap_max_mw: float):
+	"""Return (n_min, n_max) for this turbine type to stay within capacity bounds."""
+	p_mw = _get_turbine_power_mw(turbine_name)
+	n_min = int(np.ceil(cap_min_mw / p_mw))
+	n_max = int(np.floor(cap_max_mw / p_mw))
+	# Safety clamp: at least 1 turbine, and n_max >= n_min
+	n_min = max(1, n_min)
+	n_max = max(n_min, n_max)
+	return n_min, n_max, p_mw
 
 
 # # Denmark Site
@@ -923,10 +964,15 @@ if __name__ == '__main__':
 	start_time = time.time()
 	
 	# Use ProcessPoolExecutor for true parallel python processes
+	# Use ProcessPoolExecutor for true parallel python processes
 	with ProcessPoolExecutor(max_workers=MAX_WORKERS) as ex:
 		futures = {}
-		for n in range(N_MIN, N_MAX + 1):
-			for t_idx in range(len(turbines)):
+		for t_idx, t_name in enumerate(turbines):
+			n_min_t, n_max_t, p_mw = valid_turbine_counts(
+				t_name, CAPACITY_MIN, CAPACITY_MAX
+			)
+			print(f"  {t_name}: rated {p_mw:.3f} MW → valid n = [{n_min_t}, {n_max_t}]")
+			for n in range(n_min_t, n_max_t + 1):
 				futures[ex.submit(_run_one, (n, t_idx))] = (n, t_idx)
 				
 		for fut in as_completed(futures):

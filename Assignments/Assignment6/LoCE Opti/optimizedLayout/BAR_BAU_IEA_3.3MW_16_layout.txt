@@ -1,22 +1,38 @@
 === Best layout: 16 turbines, type BAR_BAU_IEA_3.3MW ===
-Opt time : 18m 5.7s
-AEP      : 282.293 GWh/yr
-Penalty  : 0.000000
-Substation: x=3450.34 m, y=200.59 m
-Total cable run: 38.40 km
-  Turbine 0: x=246.7267 m, y=657.2116 m
-  Turbine 1: x=1187.7800 m, y=1283.3655 m
-  Turbine 2: x=659.1867 m, y=940.4126 m
-  Turbine 3: x=1424.6920 m, y=1034.1044 m
-  Turbine 4: x=1081.7716 m, y=1844.4680 m
-  Turbine 5: x=1400.7426 m, y=1553.2365 m
-  Turbine 6: x=2158.2731 m, y=1373.8022 m
-  Turbine 7: x=817.7194 m, y=407.5513 m
-  Turbine 8: x=2256.5452 m, y=670.9234 m
-  Turbine 9: x=855.2923 m, y=1626.4253 m
-  Turbine 10: x=840.8121 m, y=2072.0488 m
-  Turbine 11: x=600.4978 m, y=1400.8439 m
-  Turbine 12: x=2793.4082 m, y=1449.6208 m
-  Turbine 13: x=2487.2992 m, y=1525.6226 m
-  Turbine 14: x=1530.6980 m, y=482.3866 m
-  Turbine 15: x=1139.5874 m, y=297.9854 m
+Optimization Time: 2 hr 17 min 23.68 secs
+AEP (no yaw): 284.251 GWh/yr
+Penalty     : 1681.616874
+  Turbine 0: x=1134.6693 km, y=1678.6550 km
+  Turbine 1: x=2564.6520 km, y=1379.2200 km
+  Turbine 2: x=3025.8937 km, y=958.8684 km
+  Turbine 3: x=1870.6839 km, y=1478.5827 km
+  Turbine 4: x=1375.3517 km, y=947.0859 km
+  Turbine 5: x=169.2168 km, y=818.1428 km
+  Turbine 6: x=2044.3453 km, y=999.8496 km
+  Turbine 7: x=2415.4856 km, y=806.7056 km
+  Turbine 8: x=2936.1604 km, y=1392.9582 km
+  Turbine 9: x=1475.2856 km, y=1749.6872 km
+  Turbine 10: x=775.3292 km, y=1789.8856 km
+  Turbine 11: x=2343.9217 km, y=1151.6739 km
+  Turbine 12: x=517.5400 km, y=1971.2889 km
+  Turbine 13: x=1565.3450 km, y=471.4354 km
+  Turbine 14: x=1281.1852 km, y=1282.4202 km
+  Turbine 15: x=782.9487 km, y=1146.6047 km
+
+=== Start position (random seed) ===
+  Turbine 0: x=2300.8419 km, y=1673.5045 km
+  Turbine 1: x=1364.1729 km, y=358.3795 km
+  Turbine 2: x=2109.8607 km, y=1472.2945 km
+  Turbine 3: x=3533.7355 km, y=1543.8045 km
+  Turbine 4: x=2468.6723 km, y=1169.9113 km
+  Turbine 5: x=3529.9943 km, y=1469.7127 km
+  Turbine 6: x=1863.7076 km, y=1762.4834 km
+  Turbine 7: x=3074.5702 km, y=337.7179 km
+  Turbine 8: x=730.0983 km, y=1130.6041 km
+  Turbine 9: x=977.0011 km, y=1122.2212 km
+  Turbine 10: x=1685.7047 km, y=684.5372 km
+  Turbine 11: x=863.1509 km, y=1274.6727 km
+  Turbine 12: x=851.5295 km, y=195.0681 km
+  Turbine 13: x=1432.5635 km, y=1907.2108 km
+  Turbine 14: x=1973.2724 km, y=451.1029 km
+  Turbine 15: x=1037.1725 km, y=2075.1578 km

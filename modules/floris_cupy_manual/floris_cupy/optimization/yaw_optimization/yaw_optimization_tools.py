@@ -37,10 +37,13 @@ def derive_downstream_turbines(fmodel, wind_direction, wake_slope=0.30, plot_lin
     """
 
     # Get farm layout
-    x = fmodel.layout_x
-    y = fmodel.layout_y
-    D = np.ones_like(x) * fmodel.core.farm.rotor_diameters_sorted[0][0]
+    x = np.array(fmodel.layout_x)
+    y = np.array(fmodel.layout_y)
+    D = np.ones_like(x) * float(fmodel.core.farm.rotor_diameters_sorted[0][0])
     n_turbs = len(x)
+
+    # Ensure wind_direction is a plain Python float (not numpy.float64)
+    wind_direction = float(wind_direction)
 
     # Rotate farm and determine freestream/waked turbines
     is_downstream = [False for _ in range(n_turbs)]
@@ -112,9 +115,9 @@ def derive_downstream_turbines(fmodel, wind_direction, wake_slope=0.30, plot_lin
                 edgecolor=None,
             )
 
-    usrt = np.argsort(srt)
+    usrt = np.argsort(srt).tolist()
     is_downstream = [is_downstream[i] for i in usrt]
-    turbs_downstream = list(np.where(is_downstream)[0])
+    turbs_downstream = np.where(np.array(is_downstream))[0].tolist()
 
     if plot_lines:
         ax.set_title("wind_direction = %03d" % wind_direction)

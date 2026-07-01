@@ -95,7 +95,7 @@ farm:
   # a string beginning with !include for a path to the user's turbine; or a full
   # definition of a wind turbine (as a nested dictionary).
   turbine_type:
-  - /home/lavender/Studies/Design of Wind Farms/modules/floris/floris/turbine_library/IEA_3_4MW.yaml
+  - /home/lavender/Studies/Design of Wind Farms/modules/floris_cupy_manual/floris_cupy/turbine_library/BAR_BAU_IEA_3.3MW.yaml
 
 ###
 # Group for defining the atmospheric conditions.

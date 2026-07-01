@@ -1,0 +1,61 @@
+=== Best layout: 18 turbines, type BAR_BAU_IEA_3.3MW ===
+Optimization Time: 1 hr 38 min 57.15 secs
+AEP (no yaw): 309.150 GWh/yr
+AEP (yaw)   : 312.310 GWh/yr
+Yaw gain    : +1.0%
+Penalty     : 0.000000
+Total Cable : 19.58 km
+
+=== Optimized Substation ===
+  Position  : x=1183.3892 m, y=2374.3629 m
+  Exclusion : 234.00 m
+
+=== Turbine Positions (meters) ===
+  Turbine 0: x=2615.9361 m, y=1294.2489 m
+  Turbine 1: x=2214.8682 m, y=907.9176 m
+  Turbine 2: x=1755.5040 m, y=1948.8460 m
+  Turbine 3: x=1912.6492 m, y=1064.2167 m
+  Turbine 4: x=1114.4321 m, y=1667.1931 m
+  Turbine 5: x=288.7662 m, y=709.3780 m
+  Turbine 6: x=1447.2583 m, y=1076.7124 m
+  Turbine 7: x=2292.8260 m, y=571.2981 m
+  Turbine 8: x=734.0453 m, y=922.9026 m
+  Turbine 9: x=1966.0181 m, y=540.7617 m
+  Turbine 10: x=1446.2052 m, y=1634.1513 m
+  Turbine 11: x=836.5344 m, y=1314.8625 m
+  Turbine 12: x=2142.8462 m, y=1369.3675 m
+  Turbine 13: x=1164.9483 m, y=860.1083 m
+  Turbine 14: x=749.9101 m, y=1779.0831 m
+  Turbine 15: x=852.2207 m, y=451.7299 m
+  Turbine 16: x=588.4780 m, y=1506.7686 m
+  Turbine 17: x=1719.6668 m, y=1467.6070 m
+
+=== Start Substation ===
+  Position  : x=749.4696 m, y=2898.6170 m
+
+=== Start Positions (meters) ===
+  Turbine 0: x=2300.8419 m, y=1673.5045 m
+  Turbine 1: x=1364.1729 m, y=358.3795 m
+  Turbine 2: x=2109.8607 m, y=1472.2945 m
+  Turbine 3: x=3533.7355 m, y=1543.8045 m
+  Turbine 4: x=2468.6723 m, y=1169.9113 m
+  Turbine 5: x=3529.9943 m, y=1469.7127 m
+  Turbine 6: x=1863.7076 m, y=1762.4834 m
+  Turbine 7: x=3074.5702 m, y=337.7179 m
+  Turbine 8: x=730.0983 m, y=1130.6041 m
+  Turbine 9: x=977.0011 m, y=1122.2212 m
+  Turbine 10: x=1685.7047 m, y=684.5372 m
+  Turbine 11: x=863.1509 m, y=1274.6727 m
+  Turbine 12: x=851.5295 m, y=195.0681 m
+  Turbine 13: x=1432.5635 m, y=1907.2108 m
+  Turbine 14: x=1973.2724 m, y=451.1029 m
+  Turbine 15: x=1037.1725 m, y=2075.1578 m
+  Turbine 16: x=3091.2014 m, y=1982.4961 m
+  Turbine 17: x=3336.9215 m, y=140.3482 m
+
+=== Penalty Breakdown ===
+  line: 0.000000
+  boundary: 0.000000
+  exclusion: 0.000000
+  inter_turbine: 0.000000
+  substation_excl: 0.000000

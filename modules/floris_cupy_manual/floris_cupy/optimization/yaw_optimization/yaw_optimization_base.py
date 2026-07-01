@@ -118,7 +118,7 @@ class YawOptimization(LoggingManager):
         else:
             b = self.fmodel.core.farm.yaw_angles
             self.yaw_angles_baseline = self._unpack_variable(b)
-            if np.any(np.abs(b) > 0.0):
+            if np.any(np.abs(self.yaw_angles_baseline) > 0.0):
                 print(
                     "INFO: Baseline yaw angles were not specified and "
                     "were derived from the floris object."
@@ -133,7 +133,7 @@ class YawOptimization(LoggingManager):
         self.maximum_yaw_angle = self._unpack_variable(maximum_yaw_angle)
 
         # Limit yaw angles to zero for disabled turbines
-        active_turbines = fmodel.core.farm.power_setpoints > POWER_SETPOINT_DISABLED
+        active_turbines = np.array(fmodel.core.farm.power_setpoints) > POWER_SETPOINT_DISABLED
         self.minimum_yaw_angle[~active_turbines] = 0.0
         self.maximum_yaw_angle[~active_turbines] = 0.0
 
@@ -247,6 +247,7 @@ class YawOptimization(LoggingManager):
         # Define which turbines to optimize for
         if self.exclude_downstream_turbines:
             for iw, wd in enumerate(self.fmodel.core.flow_field.wind_directions):
+                wd = float(wd)
                 # Remove turbines from turbs_to_opt that are downstream
                 downstream_turbines = derive_downstream_turbines(self.fmodel, wd)
                 downstream_turbines = np.array(downstream_turbines, dtype=int)
@@ -359,15 +360,22 @@ class YawOptimization(LoggingManager):
 
         # Calculate solutions
         turbine_power = np.zeros_like(self._minimum_yaw_angle_subset[:, :])
+        def _to_cpu(val):
+            if val is None:
+                return None
+            if hasattr(val, "get"):
+                return val.get()
+            return val
+
         fmodel_subset.set(
-            wind_directions=wd_array,
-            wind_speeds=ws_array,
-            turbulence_intensities=ti_array,
-            yaw_angles=yaw_angles,
-            power_setpoints=power_setpoints,
+            wind_directions=_to_cpu(wd_array),
+            wind_speeds=_to_cpu(ws_array),
+            turbulence_intensities=_to_cpu(ti_array),
+            yaw_angles=_to_cpu(yaw_angles),
+            power_setpoints=_to_cpu(power_setpoints),
         )
         fmodel_subset.run()
-        turbine_power = fmodel_subset.get_turbine_powers()
+        turbine_power = np.array(fmodel_subset.get_turbine_powers())
 
         # Multiply with turbine weighing terms
         turbine_power_weighted = np.multiply(turbine_weights, turbine_power)
@@ -407,21 +415,28 @@ class YawOptimization(LoggingManager):
         self.farm_power_opt = farm_power_opt_subset
         self.yaw_angles_opt = yaw_angles_opt_subset
 
+        def _to_cpu(val):
+            if val is None:
+                return None
+            if hasattr(val, "get"):
+                return val.get()
+            return val
+
         # Produce output table
         df_list = []
         df_list.append(
             pd.DataFrame(
                 {
-                    "wind_direction": self.fmodel.core.flow_field.wind_directions,
-                    "wind_speed": self.fmodel.core.flow_field.wind_speeds,
-                    "turbulence_intensity": self.fmodel.core.flow_field.turbulence_intensities,
-                    "yaw_angles_opt": list(self.yaw_angles_opt[:, :]),
+                    "wind_direction": _to_cpu(self.fmodel.core.flow_field.wind_directions),
+                    "wind_speed": _to_cpu(self.fmodel.core.flow_field.wind_speeds),
+                    "turbulence_intensity": _to_cpu(self.fmodel.core.flow_field.turbulence_intensities),
+                    "yaw_angles_opt": list(_to_cpu(self.yaw_angles_opt[:, :])),
                     "farm_power_opt": None
                     if self.farm_power_opt is None
-                    else self.farm_power_opt[:],
+                    else _to_cpu(self.farm_power_opt[:]),
                     "farm_power_baseline": None
                     if self.farm_power_baseline is None
-                    else self.farm_power_baseline[:],
+                    else _to_cpu(self.farm_power_baseline[:]),
                 }
             )
         )
@@ -506,9 +521,9 @@ class YawOptimization(LoggingManager):
         # to its baseline value for all conditions.
         n_turbs = len(self.fmodel.layout_x)
         sp = (n_turbs, 1)  # Tile shape for matrix expansion
-        wd_array_nominal = self.fmodel_subset.core.flow_field.wind_directions
-        ws_array_nominal = self.fmodel_subset.core.flow_field.wind_speeds
-        ti_array_nominal = self.fmodel_subset.core.flow_field.turbulence_intensities
+        wd_array_nominal = np.array(self.fmodel_subset.core.flow_field.wind_directions)
+        ws_array_nominal = np.array(self.fmodel_subset.core.flow_field.wind_speeds)
+        ti_array_nominal = np.array(self.fmodel_subset.core.flow_field.turbulence_intensities)
         n_wind_directions = len(wd_array_nominal)
         yaw_angles_verify = np.tile(yaw_angles_opt_subset, sp)
         yaw_angles_bl_verify = np.tile(yaw_angles_baseline_subset, sp)

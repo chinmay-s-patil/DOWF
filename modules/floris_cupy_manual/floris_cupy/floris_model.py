@@ -327,18 +327,24 @@ class FlorisModel(LoggingManager):
             self.core.farm.set_yaw_angles(yaw_angles)
 
         if power_setpoints is not None:
-            if np.array(power_setpoints).shape[1] != self.core.farm.n_turbines:
-                raise ValueError(
-                    f"power_setpoints has a size of {np.array(power_setpoints).shape[1]} in the 1st"
-                    f" dimension, must be equal to n_turbines={self.core.farm.n_turbines}"
-                )
-            power_setpoints = np.array(power_setpoints)
-
-            # Convert any None values to the default power setpoint
-            power_setpoints[
-                power_setpoints == np.full(power_setpoints.shape, None)
-            ] = POWER_SETPOINT_DEFAULT
-            power_setpoints = floris_array_converter(power_setpoints)
+            if isinstance(power_setpoints, np.ndarray):
+                if power_setpoints.shape[1] != self.core.farm.n_turbines:
+                    raise ValueError(
+                        f"power_setpoints has a size of {power_setpoints.shape[1]} in the 1st"
+                        f" dimension, must be equal to n_turbines={self.core.farm.n_turbines}"
+                    )
+                power_setpoints = floris_array_converter(power_setpoints)
+            else:
+                power_setpoints_cpu = np_cpu.array(power_setpoints)
+                if power_setpoints_cpu.shape[1] != self.core.farm.n_turbines:
+                    raise ValueError(
+                        f"power_setpoints has a size of {power_setpoints_cpu.shape[1]} in the 1st"
+                        f" dimension, must be equal to n_turbines={self.core.farm.n_turbines}"
+                    )
+                power_setpoints_cpu[
+                    power_setpoints_cpu == np_cpu.full(power_setpoints_cpu.shape, None)
+                ] = POWER_SETPOINT_DEFAULT
+                power_setpoints = floris_array_converter(power_setpoints_cpu.astype(float))
 
             self.core.farm.set_power_setpoints(power_setpoints)
 
@@ -534,6 +540,33 @@ class FlorisModel(LoggingManager):
 
 
     ### Methods for extracting turbine performance after running
+
+
+    def set_layout_fast(self, layout_x, layout_y):
+        """
+        Fast path to update only turbine coordinates without rebuilding the
+        entire Core from dict.  This skips the expensive Core.from_dict()
+        call in _reinitialize() and directly mutates the farm arrays.
+        """
+        # Ensure cupy arrays
+        layout_x = np.array(layout_x)
+        layout_y = np.array(layout_y)
+
+        # Update farm layout
+        self.core.farm.layout_x = layout_x
+        self.core.farm.layout_y = layout_y
+
+        # Update coordinates array (shape: n_turbines x 3)
+        self.core.farm.coordinates[:, 0] = layout_x
+        self.core.farm.coordinates[:, 1] = layout_y
+
+        # Update wind_data layout if present
+        if self._wind_data is not None:
+            self._wind_data.set_layout(layout_x, layout_y)
+
+        # Mark state as uninitialized so run() rebuilds the domain/grid
+        self.core.state = State.UNINITIALIZED
+
 
     def _get_turbine_powers(self) -> NDArrayFloat:
         """Calculates the power at each turbine in the wind farm.

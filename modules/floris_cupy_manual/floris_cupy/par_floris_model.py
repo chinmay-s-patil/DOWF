@@ -285,8 +285,8 @@ class ParFlorisModel(FlorisModel):
 
         # Split over the wind conditions
         n_wind_condition_splits = self.n_wind_condition_splits
-        n_wind_condition_splits = np.min(
-            [n_wind_condition_splits, self.core.flow_field.n_findex]
+        n_wind_condition_splits = min(
+            n_wind_condition_splits, self.core.flow_field.n_findex
         )
 
         # Prepare the input arguments for parallel execution
@@ -308,7 +308,7 @@ class ParFlorisModel(FlorisModel):
                 "turbulence_intensities": self.core.flow_field.turbulence_intensities[wc_id_split],
                 "yaw_angles": self.core.farm.yaw_angles[wc_id_split, :],
                 "power_setpoints": self.core.farm.power_setpoints[wc_id_split, :],
-                "awc_modes": self.core.farm.awc_modes[wc_id_split, :],
+                "awc_modes": self.core.farm.awc_modes[wc_id_split.tolist(), :],
                 "awc_amplitudes": self.core.farm.awc_amplitudes[wc_id_split, :],
                 "awc_frequencies": self.core.farm.awc_frequencies[wc_id_split, :],
                 # disable_turbines is not saved on core, but passed through power_setpoints
@@ -333,7 +333,7 @@ class ParFlorisModel(FlorisModel):
                     multidim_conditions_subset = self.core.flow_field.multidim_conditions
                 else:
                     multidim_conditions_subset = {
-                        k: v[wc_id_split] for k, v in
+                        k: v[wc_id_split.tolist()] for k, v in
                         self.core.flow_field.multidim_conditions.items()
                     }
                 set_args_subset["multidim_conditions"] = multidim_conditions_subset

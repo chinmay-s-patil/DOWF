@@ -110,7 +110,7 @@ class BatchedGPUParticleSwarm:
             
             if self.disp:
                 name_str = f"({self.turbine_type_name}):" if self.turbine_type_name else ":"
-                print(f"For {self.n_turbines} turbines {name_str:<21} PSO Iter {it+1:03d}/{self.maxiter} | Best Score: {self.best_global_score:>10.1f} | True AEP: {self.best_global_aep:.3f} GWh | Penalty: {self.best_global_penalty:.6f}")
+                print(f"For {self.n_turbines} turbines {name_str:<21} PSO Iter {it+1:03d}/{self.maxiter} | Best Score: {self.best_global_score:>12.1f} | True AEP: {self.best_global_aep:.3f} GWh | Penalty: {self.best_global_penalty:.3f}")
                 
             if self.best_global_penalty <= 1e-4:
                 if self.disp:

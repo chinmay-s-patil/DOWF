@@ -1,0 +1,58 @@
+=== Best layout: 16 turbines, type BAR_BAU_LSP_3.25MW ===
+Optimization Time: 1 hr 13 min 18.59 secs
+AEP (no yaw): 282.856 GWh/yr
+AEP (yaw)   : 286.298 GWh/yr
+Yaw gain    : +1.2%
+Penalty     : 0.000000
+Total Cable : 25.55 km
+
+=== Optimized Substation ===
+  Position  : x=2027.2869 m, y=632.5359 m
+  Exclusion : 249.00 m
+
+=== Turbine Positions (meters) ===
+  Turbine 0: x=2353.1583 m, y=1203.8836 m
+  Turbine 1: x=2029.7933 m, y=1005.4189 m
+  Turbine 2: x=2404.7422 m, y=800.0242 m
+  Turbine 3: x=1599.4981 m, y=817.6884 m
+  Turbine 4: x=1378.8645 m, y=1321.6009 m
+  Turbine 5: x=1140.0170 m, y=521.5106 m
+  Turbine 6: x=2909.0233 m, y=1533.2895 m
+  Turbine 7: x=1307.1066 m, y=986.1992 m
+  Turbine 8: x=1158.6835 m, y=1827.4199 m
+  Turbine 9: x=1980.1174 m, y=530.3875 m
+  Turbine 10: x=2268.6554 m, y=1529.4497 m
+  Turbine 11: x=2774.3019 m, y=700.7738 m
+  Turbine 12: x=871.7186 m, y=1453.9499 m
+  Turbine 13: x=225.5544 m, y=1702.2279 m
+  Turbine 14: x=1561.8934 m, y=455.4445 m
+  Turbine 15: x=2709.8191 m, y=1180.5137 m
+
+=== Start Substation ===
+  Position  : x=1982.4961 m, y=3091.2014 m
+
+=== Start Positions (meters) ===
+  Turbine 0: x=2300.8419 m, y=1673.5045 m
+  Turbine 1: x=1364.1729 m, y=358.3795 m
+  Turbine 2: x=2109.8607 m, y=1472.2945 m
+  Turbine 3: x=3533.7355 m, y=1543.8045 m
+  Turbine 4: x=2468.6723 m, y=1169.9113 m
+  Turbine 5: x=3529.9943 m, y=1469.7127 m
+  Turbine 6: x=1863.7076 m, y=1762.4834 m
+  Turbine 7: x=3074.5702 m, y=337.7179 m
+  Turbine 8: x=730.0983 m, y=1130.6041 m
+  Turbine 9: x=977.0011 m, y=1122.2212 m
+  Turbine 10: x=1685.7047 m, y=684.5372 m
+  Turbine 11: x=863.1509 m, y=1274.6727 m
+  Turbine 12: x=851.5295 m, y=195.0681 m
+  Turbine 13: x=1432.5635 m, y=1907.2108 m
+  Turbine 14: x=1973.2724 m, y=451.1029 m
+  Turbine 15: x=1037.1725 m, y=2075.1578 m
+
+=== Penalty Breakdown ===
+  line: 0.000000
+  boundary: 0.000000
+  exclusion: 0.000000
+  inter_turbine: 0.000000
+  substation_excl: 0.000000
+  substation_boundary: 0.000000
